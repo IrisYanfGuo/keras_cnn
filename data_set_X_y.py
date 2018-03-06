@@ -42,7 +42,7 @@ def main():
     t = time.time()
     STFTdir = read_pickle_dir("./file_list.txt", "./STFTPickle")
     sel_word = STFTdir['word'].unique()
-    sel_word = sel_word[:2]
+    sel_word = sel_word[:10]
     STFTdir = STFTdir[STFTdir['word'].isin(sel_word)]
     STFTdir.index = np.arange(0, len(STFTdir))
     X = load_data(STFTdir)
@@ -70,9 +70,6 @@ def main():
 
 if __name__ == '__main__':
     main()
-    xfile = open("./pickleFile/X" + time.strftime("%b%d") + ".pkl", 'rb')
-    xfile = pickle.load(xfile)
-    print(xfile.head)
-    print(xfile['STFT'].iloc[0].shape)
+    
 
 

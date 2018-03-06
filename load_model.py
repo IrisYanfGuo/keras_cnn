@@ -19,23 +19,16 @@ from keras.layers.core import Activation
 from keras import backend as K
 from keras.utils import np_utils
 
-f = open("./pickleFile/XMar06.pkl",'rb')
-dataset = pickle.load(f)
-print(type(dataset))
-
-X = dataset['STFT'].values
-y = dataset['label'].values
-path = dataset['path'].values
 
 
-'''
+
 from keras.utils import plot_model
 from keras.models import load_model
 model = load_model("./cat10.h5")
 plot_model(model,to_file="./model.png",show_layer_names=True,show_shapes=True)
 a = model.get_weights()
 model.summary()
-img_to_visualize = x_train[65]
+#img_to_visualize = x_train[65]
 
 def layer_to_visualize(layer):
     inputs = [K.learning_phase()] + model.inputs
@@ -73,4 +66,3 @@ def main():
 if __name__ == '__main__':
     main()
 
-'''
