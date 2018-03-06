@@ -1,7 +1,6 @@
-./idea/
-./X_test.pkl
-./X_train.pkl
-./y_test.pkl
-./y_train.pkl
+.idea/
 ./STFTPickle/
 .STFTPickle.zip
+*.pkl
+*.zip
+
