@@ -18,8 +18,23 @@ from keras.layers.convolutional import Convolution2D
 from keras.layers.core import Activation
 from keras import backend as K
 from keras.utils import np_utils
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
 
 
+f = open("./pickleFile/data10Mar06.pkl",'rb')
+dataset = pickle.load(f)
+
+STFT = dataset['STFT'].as_matrix()
+X = np.ndarray((len(STFT),STFT[0].shape[0],STFT[0].shape[1],STFT[0].shape[2]))
+
+for i in range(len(STFT)):
+    X[i] = STFT[i]
+
+y = dataset['label'].values
+path = dataset['path'].values
+
+X_train, X_test, y_train, y_test,path_train,path_test = train_test_split(X, y,path, test_size=0.3, random_state=42)
 
 
 from keras.utils import plot_model
@@ -28,7 +43,7 @@ model = load_model("./cat10.h5")
 plot_model(model,to_file="./model.png",show_layer_names=True,show_shapes=True)
 a = model.get_weights()
 model.summary()
-#img_to_visualize = x_train[65]
+img_to_visualize = X_train[65]
 
 def layer_to_visualize(layer):
     inputs = [K.learning_phase()] + model.inputs
@@ -53,7 +68,7 @@ def layer_to_visualize(layer):
         ax = fig.add_subplot(n, n, i + 1)
         ax.imshow(convolutions[i])
 plt.figure()
-plt.imshow(x_train[65][0])
+plt.imshow(X_train[65][0])
 img_to_visualize = np.expand_dims(img_to_visualize, axis=0)
 layer_to_visualize(model.get_layer("max_pooling2d_1"))
 plt.show()

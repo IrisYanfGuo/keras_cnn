@@ -69,7 +69,14 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    a = read_pickle_dir("./file_list.txt", "./STFTPickle")
+    b = a['word'].unique()
+    str=''
+    for i in b:
+        str += "\""+i+"\""+","
+    f = open("./label.txt","w")
+    f.write(str)
+    f.close()
     
 
 

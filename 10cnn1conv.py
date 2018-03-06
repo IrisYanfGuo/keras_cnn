@@ -27,7 +27,7 @@ from sklearn.preprocessing import LabelEncoder
 seed = 7
 np.random.seed(seed)
 
-f = open("./pickleFile/XMar06.pkl",'rb')
+f = open("./pickleFile/data10Mar06.pkl",'rb')
 dataset = pickle.load(f)
 print(type(dataset))
 
@@ -45,33 +45,7 @@ path = dataset['path'].values
 X_train, X_test, y_train, y_test,path_train,path_test = train_test_split(X, y,path, test_size=0.3, random_state=42)
 
 print(X.shape)
-'''
-# load data
-X_train = pickle.load(open("./X_train.pkl",'rb'))
-X_test = pickle.load(open("./X_test.pkl",'rb'))
-y_test = pickle.load(open("./y_test.pkl",'rb'))
-y_train = pickle.load(open("./y_train.pkl",'rb'))
-# reshape to be [samples][pixels][width][height]
-
-print(X_train.shape)
-
-# one hot encode outputs
-
-'''
 # kaggle
-
-
-
-label = ['yes', 'no', 'up', 'down', 'left', 'right', 'on', 'off', 'stop', 'go']
-#print(y_train)
-for i in range(len(y_train)):
-    if y_train[i] not in label:
-        y_train[i]='other'
-
-for i in range(len(y_test)):
-    if y_test[i] not in label:
-        y_test[i]='other'
-
 
 
 encoder = LabelEncoder()
@@ -79,8 +53,6 @@ encoder.fit(y_train)
 encoded_Y = encoder.transform(y_train)
 y_train = np_utils.to_categorical(encoded_Y)
 
-encoder2 = LabelEncoder()
-encoder2.fit(y_test)
 encoded2_Y = encoder.transform(y_test)
 y_test = np_utils.to_categorical(encoded2_Y)
 
