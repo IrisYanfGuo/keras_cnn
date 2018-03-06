@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import pickle
+import time
 
 from keras.datasets import mnist
 from keras.models import Sequential
@@ -18,6 +19,7 @@ from keras.layers.convolutional import MaxPooling2D
 from keras.utils import np_utils
 from keras import backend as K
 
+from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 
 
@@ -25,6 +27,25 @@ from sklearn.preprocessing import LabelEncoder
 seed = 7
 np.random.seed(seed)
 
+f = open("./pickleFile/XMar06.pkl",'rb')
+dataset = pickle.load(f)
+print(type(dataset))
+
+STFT = dataset['STFT'].as_matrix()
+X = np.ndarray((len(STFT),STFT[0].shape[0],STFT[0].shape[1],STFT[0].shape[2]))
+t = time.time()
+for i in range(len(STFT)):
+    X[i] = STFT[i]
+t2 = time.time()
+print("time for loop",(t2-t))
+
+y = dataset['label'].values
+path = dataset['path'].values
+
+X_train, X_test, y_train, y_test,path_train,path_test = train_test_split(X, y,path, test_size=0.3, random_state=42)
+
+print(X.shape)
+'''
 # load data
 X_train = pickle.load(open("./X_train.pkl",'rb'))
 X_test = pickle.load(open("./X_test.pkl",'rb'))
@@ -36,8 +57,10 @@ print(X_train.shape)
 
 # one hot encode outputs
 
-
+'''
 # kaggle
+
+
 
 label = ['yes', 'no', 'up', 'down', 'left', 'right', 'on', 'off', 'stop', 'go']
 #print(y_train)

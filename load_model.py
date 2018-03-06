@@ -19,11 +19,16 @@ from keras.layers.core import Activation
 from keras import backend as K
 from keras.utils import np_utils
 
-f = open("./X_train.pkl",'rb')
-x_train = pickle.load(f)
-print(type(x_train))
+f = open("./pickleFile/XMar06.pkl",'rb')
+dataset = pickle.load(f)
+print(type(dataset))
+
+X = dataset['STFT'].values
+y = dataset['label'].values
+path = dataset['path'].values
 
 
+'''
 from keras.utils import plot_model
 from keras.models import load_model
 model = load_model("./cat10.h5")
@@ -67,3 +72,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+'''

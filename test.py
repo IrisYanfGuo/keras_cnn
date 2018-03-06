@@ -8,11 +8,15 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import os
 import time
+import pickle
+from keras.preprocessing.image import ImageDataGenerator, DirectoryIterator
+
 
 def main():
-    print("hello world")
-    #os.mkdir("./pickleFile/"+str(time.time()))
-    print(time.strftime("%b%d_%H:%M"))
+    f = open("./pickleFile/XMar06.pkl", 'rb')
+    # dataset = pickle.load(f)
+    # print(type(dataset))
+    # print(dataset[['STFT']].as_matrix().shape)
 
 
 if __name__ == '__main__':

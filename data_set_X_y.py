@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from read_dir_os import *
 
+
 def load_data(dir):
     '''
     :param dir: the directory information of the data, type: pd.frame, columns=['word', 'speaker', 'path', 'temp']
@@ -16,48 +17,49 @@ def load_data(dir):
     '''
     path = dir['path'].values
     label = dir['word'].values
-    a = pickle.load(open(path[0],'rb')).values
+    a = pickle.load(open(path[0], 'rb')).values
 
     len1 = a.shape[0]
     len2 = a.shape[1]
-    X = np.ndarray(shape=(len(path),1,len1,len2))
+    #X = np.ndarray(shape=(len(path), 1, len1, len2))
+    #for i in range(len(path)):
+      #  X[i, 0] = pickle.load(open(path[i], 'rb')).values
+        # X = np.ndarray(X)
+    X = []
     for i in range(len(path)):
-        X[i,0] = pickle.load(open(path[i],'rb')).values
-   #X = np.ndarray(X)
-    return X,(label,path)
+        STFT = np.ndarray((1, len1, len2))
+        STFT[0] = pickle.load(open(path[i], 'rb')).values # shape = (1*len1*len2)
+        path1 = path[i]
+        label1 = label[i]
+        X.append([STFT,label1,path1])
 
+    X = pd.DataFrame(X,columns=['STFT', 'label', 'path'])
 
-
-
-
+    return X
 
 
 def main():
     t = time.time()
     STFTdir = read_pickle_dir("./file_list.txt", "./STFTPickle")
     sel_word = STFTdir['word'].unique()
+    sel_word = sel_word[:2]
     STFTdir = STFTdir[STFTdir['word'].isin(sel_word)]
     STFTdir.index = np.arange(0, len(STFTdir))
-    X, label = load_data(STFTdir)
+    X = load_data(STFTdir)
     t2 = time.time()
     print("loading time:", (t2 - t))
 
+    xfile = open("./pickleFile/X" + time.strftime("%b%d") + ".pkl", 'wb')
+    pickle.dump(X, xfile)
+
+    xfile.close()
+
+    '''
     # divide training set and test set
     X_train, X_test, y_train, y_test = train_test_split(X, label, test_size=0.3, random_state=42)
     print(X_train.shape)
 
-    xtrainf = open("./X_train_all.pkl_0.7", 'wb')
-    ytrainf = open("./y_train_all.pkl_0.7", 'wb')
-    xtestf = open("./X_test.pkl_all_0.7", 'wb')
-    ytestf = open("./y_test.pkl_all_0.7", 'wb')
-    pickle.dump(X_train, xtrainf)
-    pickle.dump(y_train, ytrainf)
-    pickle.dump(X_test, xtestf)
-    pickle.dump(y_test, ytestf)
-    xtrainf.close()
-    ytrainf.close()
-    xtestf.close()
-    ytestf.close()
+    '''
 
 
 
@@ -68,3 +70,9 @@ def main():
 
 if __name__ == '__main__':
     main()
+    xfile = open("./pickleFile/X" + time.strftime("%b%d") + ".pkl", 'rb')
+    xfile = pickle.load(xfile)
+    print(xfile.head)
+    print(xfile['STFT'].iloc[0].shape)
+
+
