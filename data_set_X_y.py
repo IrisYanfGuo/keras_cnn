@@ -42,14 +42,13 @@ def main():
     t = time.time()
     STFTdir = read_pickle_dir("./file_list.txt", "./STFTPickle")
     sel_word = STFTdir['word'].unique()
-    sel_word = sel_word[:2]
     STFTdir = STFTdir[STFTdir['word'].isin(sel_word)]
     STFTdir.index = np.arange(0, len(STFTdir))
     X = load_data(STFTdir)
     t2 = time.time()
     print("loading time:", (t2 - t))
 
-    xfile = open("./pickleFile/X" + time.strftime("%b%d") + ".pkl", 'wb')
+    xfile = open("./pickleFile/data30Cat76*68" + time.strftime("%b%d") + ".pkl", 'wb')
     pickle.dump(X, xfile)
 
     xfile.close()
